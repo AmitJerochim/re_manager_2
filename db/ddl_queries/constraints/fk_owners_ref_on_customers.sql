@@ -1,0 +1,2 @@
+
+ALTER TABLE owners ADD CONSTRAINT fk_owners_ref_on_customers FOREIGN KEY (id) REFERENCES customers(id) ON DELETE CASCADE ON UPDATE CASCADE;

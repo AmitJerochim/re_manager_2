@@ -1,0 +1,37 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class='page-header')
+             h1 Gebäudeübersicht
+        div(class='container')
+            a(href='/buildings/create' class='btn btn-success')
+                span(class='glyphicon glyphicon-add') Gebäude hinzufügen
+            a(href='/buildings/cost_types' class='btn btn-primary')
+                span(class='glyphicon glyphicon-add') Ausgabentypen einsehen
+            a(href='/buildings/cost_positions/create' class='btn btn-warning')
+                span(class='glyphicon glyphicon-add') Ausgabentyp hinzufügen
+            table(class="table table-bordered")
+                thead
+                    tr
+                        th ID
+                        th Anschrift
+                        th Baujahr
+                        th Wohnfläche
+                        th Wohnfläche ohne Erdgeschoss
+                        th Anzahl Wohnungen
+                        th Details
+                tbody
+                each b, i in buildings
+                    tr
+                        td= b.id
+                        td= b.street + " " + b.street_nr + ", " + b.post_code + " " + b.city
+                        td= b.year_of_completion
+                        td= b.total_living_area
+                        td= b.living_area_except_ground_floor
+                        td= b.number_flats
+                        td!='<a href="/buildings/' + b.id + '" class="btn btn-primary">Details</a>'
+block scripts
+    script
+        //include ../ressources/js/index.js

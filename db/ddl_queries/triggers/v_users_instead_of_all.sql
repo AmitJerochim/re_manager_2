@@ -1,0 +1,5 @@
+
+CREATE TRIGGER v_users_instead_of_all INSTEAD OF INSERT OR UPDATE OR DELETE 
+ON v_users
+FOR EACH ROW
+EXECUTE PROCEDURE edit_users();

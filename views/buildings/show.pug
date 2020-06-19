@@ -1,0 +1,63 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class='page-header')
+            h1= "Details für Gebäude Nr. " + data[0].building_id
+            
+        div(class='container')
+            a(href='/apartments/create?building_id='+ data[0].building_id class='btn btn-success')
+                span(class='glyphicon glyphicon-plus')  Wohnung hinzufügen
+            a(href='/buildings/' +data[0].building_id + '/add_costs?building_id=' + data[0].building_id class='btn btn-success')
+                span(class='glyphicon glyphicon-plus')  Ausgaben eintragen
+            
+            // a(href='/buildings/add_costs' class='btn btn-success')
+            //     span(class='glyphicon glyphicon-plus')  Ausgaben eintragen
+            br
+            br
+            table(class="table table-bordered")
+                thead
+                    tr
+                        th ID
+                        th Anschrift
+                        th Baujahr
+                        th Wohnfläche
+                        th Wohnfläche ohne EG
+                        th Anzahl Wohnungen
+                        th Details
+                        th Löschen
+                tbody
+                    tr
+                        td= data[0].building_id
+                        td= data[0].street + " " + data[0].street_nr + ", " + data[0].post_code + " " + data[0].city
+                        td= data[0].year_of_completion
+                        td= data[0].total_living_area
+                        td= data[0].living_area_except_ground_floor
+                        td= data[0].number_flats
+                        td!='<a href="/buildings/' + data[0].building_id + '/edit" class="btn btn-default">Ändern</a>'
+                        td!='<a href="/buildings/' + data[0].building_id + '/delete" class="btn btn-danger">Löschen</a>'
+            br
+            table(class="table table-bordered")
+                thead
+                    tr
+                        th ID
+                        th Mieter
+                        th Größe 
+                        th Grundmiete
+                        th Betriebskosten
+                        th Details 
+                tbody
+                    each apartment, index in data
+                        if apartment.apartment_id
+                            tr
+                                td= apartment.apartment_id
+                                td= apartment.tenants_first_name +" " +apartment.tenants_last_name
+                                td= apartment.apartment_size
+                                td= apartment.net_cold_rent
+                                td= apartment.property_charges
+                                td!='<a href="/apartments/'+ apartment.apartment_id +'" class="btn btn-primary">Details</a>'
+block scripts                       
+    script
+        // include ../ressources/js/functions.js
+        // include ../ressources/js/show.js

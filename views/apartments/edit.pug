@@ -1,0 +1,51 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    
+    main
+        div(class="page-header")
+            h1  Wohnung ändern
+        div(class="container")
+            input(type="hidden" name="building_id" value=apartment.building_id)
+            div(class="form-group")
+                label(for="apartment_indication") Wohnungsbezeichnung
+                input(type="text" pattern="[1-9][0-9]{0,2}" class="form-control" id="apartment_indication" placeholder="z.B. 22 für WE 22" name="apartment_indication" value= apartment.indication required)
+            div(class="form-group")
+                label(for="apartment_size") Wohnläche in m
+                input(type="text" pattern="[1-9][0-9]{0,2}([.,][0-9]{1,2})?" class="form-control" id="apartment_size" placeholder="z.B. 75" name="apartment_size" value= apartment.size required)
+            div(class="form-group")
+                label(for="apartment_taxes") Grundsteuern
+                input(type="text" pattern="[1-9][0-9]{1,2}([.,][0-9]{1,2})?" class="form-control" id="apartment_taxes" placeholder="z.B. 32" name="apartment_taxes" value= apartment.taxes required)
+            div(class="form-group")
+                label(for="apartment_floor") Etage
+                input(type="text" pattern="[0-9][0-9]?" class="form-control" id="apartment_floor" placeholder="z.B. 1 für 1.OG oder 0 für EG" name="apartment_floor" value= apartment.floor required)
+            div(class="form-check")
+                input(type="checkbox" class="form-check-input" id="is_rented" name="is_rented" value="1")
+                label(class="form-check-label" for="is_rented") Mieter vorhanden
+            div(id="tenant_container" style="display: none;")
+            button(onClick="updateApartment()" class="btn btn-primary") Submit
+            div(class="clonable" style="display: none;")
+                input(type="hidden" name="current_tenant" value="1")
+                div(class="form-group")
+                    label(for="tenant_name") Name des Mieters
+                    input(type="text" pattern="[A-Z][a-zöäü]+(\\s[A-Z][a-zöäü]+)+([,]\\s[A-Z][a-zöäü]+(\\s[A-Z][a-zöäü]+)+)*" class="form-control" id="tenant_name" placeholder="Max Mustermann" name="tenant_name" value= tenant.name required)    
+                div(class="form-group")
+                    label(for="net_cold_rent") Grundmiete
+                    input(type="text" pattern="[1-9][0-9]{1,3}([,.][0-9]{1,2})?" class="form-control" id="net_cold_rent" placeholder="790" name="net_cold_rent"  value= tenant.net_cold_rent required)
+                div(class="form-group")
+                    label(for="property_charges") Betriebskosten
+                    input(type="text" pattern="[1-9][0-9]{1,3}([,.][0-9]{1,2})?" class="form-control" id="property_charges" placeholder="230" name="property_charges"  value= tenant.property_charges required)
+                div(class="form-group")
+                    label(for="beginning_rental_period") Beginn des Mietverhältnisses
+                div(class="input-group date" data-provide="datepicker")
+                    input(type="date" class="form-control" name="beginning_rental_period" value= tenant.beginning_rental_period)
+                    div(class="input-group-addon")
+                        span(class="glyphicon glyphicon-th")
+
+block scripts                       
+    script
+        include ../../ressources/js/functions.js
+        include ../../ressources/js/apartments/edit.js
+        
+        // include ../ressources/js/show.js

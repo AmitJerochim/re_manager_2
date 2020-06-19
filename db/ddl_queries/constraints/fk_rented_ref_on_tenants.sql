@@ -1,0 +1,2 @@
+
+ALTER TABLE rented ADD CONSTRAINT fk_rented_ref_on_tenants FOREIGN KEY (tenant_id) REFERENCES tenants(id) ON DELETE CASCADE ON UPDATE CASCADE;

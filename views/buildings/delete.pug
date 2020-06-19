@@ -1,0 +1,14 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class='page-header')
+             h1= building.street + " " + building.street_nr + ", " + building.post_code + " " + building.city + " unwiderruflich löschen?"
+        div(class='container')
+            a( href="" class="btn btn-success" id="go_back") abbrechen
+            button( onclick="delete_item()" class="btn btn-danger") löschen
+block scripts                       
+    script
+        include ../../ressources/js/functions.js
+        include ../../ressources/js/delete.js

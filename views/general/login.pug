@@ -1,0 +1,19 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class="page-header")
+            h1 Login
+        div(class="container")
+            form(action="/login" method="POST")
+                div(class="form-group")
+                    label(for="username") Benutzername
+                    input(type="text" class="form-control" id="username" placeholder="Max" name="username" required)
+                div(class="form-group")
+                    label(for="password") passwort
+                    input(type="password"  class="form-control" id="password" name="password" required)
+                button(type="submit" class="btn btn-primary") Submit        
+block scripts
+    script
+        //include ../ressources/js/index.js

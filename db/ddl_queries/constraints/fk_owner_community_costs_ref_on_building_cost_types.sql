@@ -1,0 +1,2 @@
+
+ALTER TABLE owner_community_costs ADD CONSTRAINT fk_owner_community_costs_ref_on_building_cost_types FOREIGN KEY (building_cost_type_id) REFERENCES building_cost_types(id) ON DELETE CASCADE ON UPDATE CASCADE;

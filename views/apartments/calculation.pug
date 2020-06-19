@@ -1,0 +1,166 @@
+extends ../layouts/layout.pug
+block head
+     link(rel='stylesheet', href='../../ressources/css/apartment/calculation.css')
+block header
+    include ../includes/header.pug
+block content
+    // Calculates calculation period that is relevant for the tenant 
+    - console.log(heating_costs)
+    - if (tenant.end_rental_period=="0000-00-00") tenant.end_rental_period=null
+    - var start_next_year =new Date(year,12,1)
+    - var end_last_year = new Date(year-1,11,31)
+    - var time_period=365
+    - if (tenant.beginning_rental_period > end_last_year) { time_period = (start_next_year - tenant.beginning_rental_period)/(60*60*24*1000)}
+    - if (tenant.end_rental_period!=null && tenant.end_rental_period < start_next_year && tenant.end_rental_period > end_last_year) { time_period = (tenant.end_rental_period - end_last_year)/(60*60*24*1000)}
+    
+    // destribution Keys
+    
+    - var dest_key_by_total_living_area = (apartment.size * time_period) / (building.total_living_area*365)
+    
+    - var dest_key_by_living_area_exept_groundfloor=0
+    - if (apartment.floor > 0) { dest_key_by_living_area_exept_groundfloor = (apartment.size * time_period) / (building.living_area_except_ground_floor*365) }
+    
+    - var dest_key_by_number_flats = time_period /(building.number_flats *365)
+    
+    
+    main
+        div(class="page-header")
+            h1 test
+        div(class="container")
+            div(class="row")
+                table(class="table table-bordered")
+                    thead
+                        tr
+                            th(colspan=3) Kosten
+                        tr
+                            th Position
+                            th Ihr Verteilerschlüssel
+                            th Ihre Kosten
+                        tbody
+                                tr
+                                    td Heizkosten
+                                    td Fremdabrechnung
+                                    td= heating_costs
+            div(class="row")
+                div(class="col-md-2")
+                    p Gesamtfläche
+                div(class="col-md-2")    
+                    p Wohnungsfläche
+                div(class="col-md-2")
+                    p Abrechnungszeitraum
+                div(class="col-md-2")
+                    p Ihr Wohnzeitraum
+                div(class="col-md-2")
+                    p Ihr Verteilerschlüssel
+            div(class="row")
+                div(class="col-md-2")
+                    p= building.total_living_area
+                div(class="col-md-2")
+                    p= apartment.size
+                div(class="col-md-2")
+                    p 365
+                div(class="col-md-2")
+                    p= time_period
+                div(class="col-md-2")
+                    p= dest_key_by_total_living_area
+            div(class="row")
+                table(class="table table-bordered")
+                    thead
+                        tr
+                            th(colspan=4) Kosten
+                        tr
+                            th Position
+                            th Gesamtkosten
+                            th Ihr Verteilerschlüssel
+                            th Ihre Kosten
+                        tbody
+                            each position, idx in house_costs_distributed_by_total_living_area
+                                tr
+                                    td= position.designation
+                                    td= position.costs
+                                    td= dest_key_by_total_living_area
+                                    td= position.costs * dest_key_by_total_living_area
+            div(class="row")
+                div(class="col-md-2")
+                    p Gesamtfläche
+                div(class="col-md-2")    
+                    p Wohnungsfläche
+                div(class="col-md-2")
+                    p Abrechnungszeitraum
+                div(class="col-md-2")
+                    p Ihr Wohnzeitraum
+                div(class="col-md-2")
+                    p Ihr Verteilerschlüssel
+            div(class="row")
+                div(class="col-md-2")
+                    p= building.living_area_except_ground_floor
+                div(class="col-md-2")
+                    p= apartment.size
+                div(class="col-md-2")
+                    p 365
+                div(class="col-md-2")
+                    p= time_period
+                div(class="col-md-2")
+                    p= dest_key_by_living_area_exept_groundfloor
+            
+            div(class="row")
+                table(class="table table-bordered")
+                    thead
+                        tr
+                            th(colspan=4) Kosten
+                        tr
+                            th Position
+                            th Gesamtkosten
+                            th Ihr Verteilerschlüssel
+                            th Ihre Kosten
+                        tbody
+                            each position, idx in house_costs_distributed_by_living_area_except_ground_floor
+                                tr
+                                    td= position.designation
+                                    td= position.costs
+                                    td= dest_key_by_total_living_area
+                                    td= position.costs * dest_key_by_living_area_exept_groundfloor
+            div(class="row")
+                div(class="col-md-2")
+                    p Anzahl Wohnungen
+                div(class="col-md-2")    
+                    p Ihre Wohnung
+                div(class="col-md-2")
+                    p Abrechnungszeitraum
+                div(class="col-md-2")
+                    p Ihr Wohnzeitraum
+                div(class="col-md-2")
+                    p Ihr Verteilerschlüssel
+            div(class="row")
+                div(class="col-md-2")
+                    p= building.number_flats
+                div(class="col-md-2")
+                    p 1
+                div(class="col-md-2")
+                    p 365
+                div(class="col-md-2")
+                    p= time_period
+                div(class="col-md-2")
+                    p= dest_key_by_number_flats
+                    
+            div(class="row")
+                table(class="table table-bordered")
+                    thead
+                        tr
+                            th(colspan=4) Kosten
+                        tr
+                            th Position
+                            th Gesamtkosten
+                            th Ihr Verteilerschlüssel
+                            th Ihre Kosten
+                        tbody
+                            each position, idx in house_costs_distributed_by_number_flats
+                                tr
+                                    td= position.designation
+                                    td= position.costs
+                                    td= dest_key_by_number_flats
+                                    td= position.costs * dest_key_by_number_flats
+block scripts                       
+    script
+        //include ../../ressources/js/apartments/create.js
+        // include ../ressources/js/show.js

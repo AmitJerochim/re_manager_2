@@ -1,0 +1,45 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class="page-header")
+            h1= "Gebäude Nr. " + building.id +" ändern"
+        div(class="container")
+            div(class="form-group")
+                label(for="owner_community_id") weg
+                input(type="text" pattern="[1-9][0-9]*"  class="form-control" id="owner_community_id" placeholder="z.B. 1" name="owner_community_id" value=building.owner_community_id required)
+            div(class="form-group")
+                label(for="street") Strasse
+                input(type="text" pattern="[A-ZÄÖÜ][a-zäöüß-]*(\\s[A-Z][a-z]*)?"  class="form-control" id="street" placeholder="z.B. Goethestr" name="street" value=building.street required)
+            div(class="form-group")
+                label(for="street_nr") Strassennummer
+                input(type="text" pattern="[1-9][0-9]*[a-zA-Z]?" class="form-control" id="street_nr" placeholder="z.B. 19a" name="street_nr" value=building.street_nr required)
+            div(class="form-group")
+                label(for="post_code") Postleitzahl
+                input(type="text" pattern="[0-9]{5}" class="form-control" id="post_code" placeholder="z.B. 10117" name="post_code" value=building.post_code required)
+            div(class="form-group")
+                label(for="city") Stadt
+                input(type="text" class="form-control" id="city" placeholder="z.B. Berlin" name="city" value=building.city required)
+            div(class="form-group")
+                label(for="year_of_completion") Baujahr
+                input(type="text" pattern="[1][89][0-9]{2}|[2][0][0-2][0-9]" class="form-control" id="year_of_completion" placeholder="z.B. 1953" name="year_of_completion" value=building.year_of_completion required)
+            div(class="form-group")
+                label(for="total_area") Gesamtflaeche in m
+                input(type="text" pattern="[1-9][0-9]{1,6}" class="form-control" id="total_area" placeholder="z.B. 4523" name="total_area" value=building.total_area required)
+            div(class="form-group")
+                label(for="ground_floor_area") Wohnfläche EG
+                input(type="text" pattern="[1-9][0-9]{1,6}" class="form-control" id="ground_floor_area" placeholder="z.B. 4523" name="ground_floor_area" value=building.ground_floor_area required)
+            div(class="form-group")
+                label(for="business_area") Gewerbefläche
+                input(type="text" pattern="[1-9][0-9]{1,6}" class="form-control" id="business_area" placeholder="z.B. 4523" name="business_area" value=building.business_area required)
+            div(class="form-group")
+                label(for="number_flats") Anzahl Wohnungen
+                input(type="text" pattern="[1-9][0-9]{0,2}" class="form-control" id="number_flats" placeholder="z.B. 42" name="number_flats" value=building.number_flats required)
+            button( onClick="up()" class="btn btn-primary" id="submit") Submit
+block scripts
+    script
+        include ../../ressources/js/functions.js
+        include ../../ressources/js/edit.js
+        
+    

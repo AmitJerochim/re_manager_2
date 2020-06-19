@@ -1,0 +1,173 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class='page-header')
+            h1= building.street + " " + building.street_nr + " WE "+ apartment.apartment_indication
+            
+        div(class='container')
+            a(href='/apartments/'+ apartment.apartment_id+ '/edit' class='btn btn-default')
+                span(class='glyphicon glyphicon-plus') Wohnungsdaten Ändern
+            br
+            br
+            div(class="row")
+                div(class="col-md-6")
+                    table(class="table table-bordered")
+                        thead
+                            tr
+                                th(colspan=2) Gebäudedaten
+                        tbody
+                            tr
+                                td ID
+                                td= building.id
+                            tr
+                                td Anschrift
+                                td= building.street + " " + building.street_nr + ", " + building.post_code + " " + building.city
+                            tr
+                                td Baujahr
+                                td= building.year_of_completion
+                            tr
+                                td Gesamtwohnfläche
+                                td= building.total_area
+                            tr
+                                td Anzahl Wohnungen
+                                td= building.number_flats
+                           
+                div(class="col-md-1")
+                div(class="col-md-6")
+                    table(class="table table-bordered")
+                        thead
+                            tr
+                                th(colspan=2) Wohnungsdaten
+                        tbody
+                            tr
+                                td ID
+                                td= apartment.apartment_id
+                            tr
+                                td Bezeichnung
+                                td= "WE " +apartment.apartment_indication
+                            tr
+                                td Wohnfläche
+                                td= apartment.apartment_size
+
+            div(class="row")
+                div(class="col-md-6")
+                    table(class="table table-bordered")
+                        thead
+                            tr
+                                th(colspan="3") Mieterdaten
+                        tbody
+                                    tr
+                                        td ID
+                                        td= tenant.customer_id
+                                    tr
+                                        td Name
+                                        td= tenant.first_name + " "+ tenant.last_name
+                                    tr
+                                        td Mietbeginn
+                                        td= tenancy.beginning_rental_period
+                                    tr
+                                        td VertragsID
+                                        td= tenancy.rented_id
+                div(class="col-md-6")
+                    table(class="table table-bordered")
+                        thead
+                            tr
+                                th(colspan="4") Geplannte Einzahlungen des Mietes
+                            tr
+                                th amount
+                                th type
+                                th date
+                                th button
+                                
+                        tbody
+                            tr
+                                form(action="/apartments/"+apartment.apartment_id+"/editPlannedPayments" method="POST" )
+                                    td  
+                                        div(class="form-group")
+                                            lable(for='amount') 
+                                            input(type="text" class="form-control costs-input" id="amount" placeholder="44,44" name="amount" required)                                    
+                                    td
+                                        div(class="form-group")
+                                            select( class="form-control" id="payment_type" placeholder="z.B. 2018" name="payment_type" required)
+                                                option(value="" disabled selected) 
+                                                option(value='net_cold_rent') Nettokaltmiete
+                                                option(value='operation_costs') Vorauszahlungen auf Nebenkosten
+                                    td
+                                        div(class="form-group")
+                                            lable(for='date') 
+                                            input(type="date" class="form-control" id="date" placeholder="datum" name="date" required)
+                                    td   
+                                        input(type="submit" class="btn btn-primary" value="ändern")
+                    table(class="table table-bordered")
+                        thead
+                            tr
+                                th(colspan="5") Einzeln abrechenbare Kosten
+                            tr
+                                th cost
+                                th type
+                                th periode
+                                th date
+                                th button
+                                
+                        tbody
+                            tr
+                                form(action="/apartments/"+apartment.apartment_id+"/add_costs" method="POST" )
+                                    td  
+                                        div(class="form-group")
+                                            lable(for='costs') 
+                                            input(type="text" class="form-control costs-input" id="costs" placeholder="44,44" name="costs" required)                                    
+                                    td
+                                        div(class="form-group")
+                                            select( class="form-control" id="designation" name="designation" required)
+                                                option(value="" disabled selected) 
+                                                option(value='network') Telefon u.Internet
+                                                option(value='electricity') Strom
+                                                option(value='taxes') Grundsteuern
+                                                option(value='heating_and_hot_water') Heizung u. Warmwasser
+                                                option(value='heating') Heizung
+                                                option(value='hot_water') Warmwasser
+                                    td
+                                        div(class="form-group")
+                                            select( class="form-control" id="period" name="period" required)
+                                                option(value="" disabled selected) 
+                                                option(value='yearly') Jährlich
+                                                option(value='monthly') Monatlich
+                                                option(value='quarter') Quartal
+                                                option(value='once') Einmalig
+                                    td
+                                        div(class="form-group")
+                                            lable(for='date') 
+                                            input(type="date" class="form-control" id="date" placeholder="datum" name="date" required)
+                                    td   
+                                        input(type="submit" class="btn btn-primary" value="ändern")
+            div(class="row")
+                div(class="col-md-6")
+                    table(class="table table-bordered")
+                        thead
+                            tr
+                                th(colspan="3") Betriebskostenabrechnung
+                        tbody
+                                    tr
+                                        td Betriebskostenabrechnung
+                                        td
+                                            form(action="/tenancy/"+tenancy.rented_id+"/create_accounting_letter" method='POST')
+                                                div(class="form-group")
+                                                    label(for="year") Jahr
+                                                    select( class="form-control" id="year" placeholder="z.B. 2018" name="year" required)
+                                                        option(default value="")
+                                                        option 2022
+                                                        option 2021
+                                                        option 2020
+                                                        option 2019
+                                                        option 2018
+                                                        option 2017
+                                                        option 2016
+                                                        option 2015
+                                                        option 2014
+                                                        option 2013
+                                                input(type="submit" class="btn btn-primary" value="erstellen")
+block scripts                       
+    script
+        include ../../ressources/js/apartments/show.js

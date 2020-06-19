@@ -1,0 +1,20 @@
+extends ../layouts/layout.pug
+block header
+    include ../includes/header.pug
+block content
+    main
+        div(class="page-header")
+            h1 Neues Ausgabentyp hinzufügen
+        div(class="container")
+            form(action="/buildings/add_cost_types" method="POST")
+                
+                div(class="form-group")
+                    label(for="house_cost_type") Ausgabentyp
+                    input(type="text" class="form-control" id="house_cost_type" placeholder="z.B. Schneebeseitigung" name="house_cost_type" required)
+                
+                button(type="submit" class="btn btn-primary") Submit
+           
+block scripts                       
+    script
+        //include ../../ressources/js/apartments/create.js
+        // include ../ressources/js/show.js
